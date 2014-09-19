@@ -153,3 +153,11 @@ merge(data.frame(B), data.frame(A), by = 'id', all.x = T)
 ```{r}
 A[B][val < 2.7,]
 ```
+
+# Adding new columns
+
+TODO...
+
+# Group by statements
+
+TODO...
