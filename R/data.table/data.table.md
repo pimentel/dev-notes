@@ -305,3 +305,11 @@ A[B][val < 2.7,]
 ## 4:  7      b 1.830      y 5.978
 ## 5:  8      a 1.286      d 5.117
 ```
+
+# Adding new columns
+
+TODO...
+
+# Group by statements
+
+TODO...
