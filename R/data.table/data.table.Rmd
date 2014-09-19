@@ -1,0 +1,155 @@
+---
+title: data.table notes
+layout: default
+output: bookdown::html_chapter
+---
+
+# data.table notes
+
+# Introduction
+
+This document is a set of notes for the `data.table` R package.
+
+First, load the package:
+
+```{r}
+library(data.table)
+```
+
+Also load other packages that we use in this page:
+
+```{r}
+library(dplyr)
+```
+
+A `data.table` extends from a `data.frame` with some interesting features and
+some syntactical sugar to make many common operations fast and easily
+expressible in simple syntax.
+
+<a name="setting-keys"></a>
+# Making a table and setting keys
+
+You can make a `data.table` from a `data.frame`. The basic syntax is also quite
+similar. If you're going to do joins, or fast lookup statements, you should set
+a **key**. The key serves as an index for fast lookups. It does not need to be
+unique, and it can be more than one column.
+
+You can set the key on creation or afterwards using the `setkey()` function:
+
+```{r}
+set.seed(42)
+
+# Setting a key on creation
+A <- data.table(data.frame(id = 10:1, aGroup = c(rep('a', 3), rep('b', 3), 'c',
+            rep('d', 3)), val = runif(10, 1, 2)), key = "id")
+
+# Setting a key after creation
+B <- data.table(id = c(21:23, 4:8, 29:30), bGroup = c(rep('w', 3),
+        rep('x', 3), 'y', rep('d', 3)), val = runif(10, 5, 6))
+setkey(B, id)
+
+head(A, 3)
+head(B, 3)
+```
+
+You'll notice that both methods have the same effect. `data.table` sorts by the
+key (a one time cost) so that lookups can be fast.
+
+# Lookups (a.k.a. SELECT)
+
+TODO... 
+
+# Joins
+
+Joins take the rows from two tables and attempt to "join" them based on
+a common identifier, often called a **key**. See [Setting keys](#setting-keys)
+for more info on setting keys. See
+[StackOverflow](http://stackoverflow.com/questions/406294/left-join-and-left-outer-join-in-sql-server)
+for more information on joins.
+
+Joins are done with the syntax `X[Y]`. This will take the rows from `Y`, find
+the matching ones in `X`, then output them
+
+```{r}
+A[B]
+```
+
+Notice that it used ALL the rows of `B`. This is often known as a *left join*
+or *outer join*. In `data.table` speak this is called *inhereted scope*. The
+reason being is that all the columns are available to both `A` and `B`.
+
+## Inner join
+To do an inner join, that is the intersection of keys between `A` and `B`, set
+the value `nomatch = 0`.
+
+```{r}
+A[B,,nomatch = 0]
+```
+
+Note that for inner joins, the order doesn't matter as it produces the
+intersection:
+
+```{r}
+B[A,,nomatch = 0]
+```
+
+### Other packages
+
+Using **dplyr**:
+
+```{r}
+inner_join(A, B, by = 'id')
+```
+
+Using **base**:
+
+```{r}
+merge(data.frame(A), data.frame(B), by = 'id')
+```
+
+Note that there is an S3 function `merge.data.table` that will produce the same
+output with the same syntax:
+
+
+```{r}
+all.equal( merge(data.frame(A), data.frame(B), by = 'id'),
+    data.frame(merge(A, B, by = 'id') ))
+```
+
+
+## Left/right outer join
+
+An outer join takes all the rows of the *outer* table and reports these. This
+is the default behavior for data.table. While this is often called an outer
+join, the syntax is a bit odd at first different for `data.table`, but after
+you understand the philosophy it becomes a bit more clear.
+
+Outer joins in `data.table` work by considering the table `Y` in the expression
+`X[Y]` as the "outer" table. That is, you will always include the rows from
+table `Y`. The rows that don't match the key in `Y` will show up as `NA`,
+hence, the syntax `nomatch = NA`.
+
+```{r}
+A[B,,nomatch = NA]
+```
+Again, note that outer joins are default behavior, so `nomatch = NA` is redundant.
+
+### Other packages
+
+Using **dplyr**,
+
+```{r}
+left_join(B, A, by = 'id')
+```
+Using **base**,
+
+```{r}
+merge(data.frame(A), data.frame(B), by = 'id', all.y = T)
+merge(data.frame(B), data.frame(A), by = 'id', all.x = T)
+```
+
+# Chaining expressions
+
+```{r}
+A[B][val < 2.7,]
+```
