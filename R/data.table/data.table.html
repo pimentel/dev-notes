@@ -472,6 +472,22 @@ hence, the syntax <code>nomatch = NA</code>.</p>
 
 <p>TODO&hellip;</p>
 
+<h1>Naming</h1>
+
+<h1>Columns</h1>
+
+<p>Columns can be renamed by the function <code>setnames()</code>:</p>
+
+<pre><code class="r">setnames(A, &quot;aGroup&quot;, &quot;newGroup&quot;)
+colnames(A)
+</code></pre>
+
+<pre><code>## [1] &quot;id&quot;       &quot;newGroup&quot; &quot;val&quot;
+</code></pre>
+
+<p>This function was implemented because apparently using <code>base::colnames()</code> will
+often <a href="http://stackoverflow.com/a/9292258/480048">copy the entire data.frame</a>.</p>
+
 </body>
 
 </html>

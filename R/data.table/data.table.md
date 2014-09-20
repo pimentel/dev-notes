@@ -313,3 +313,22 @@ TODO...
 # Group by statements
 
 TODO...
+
+# Naming
+
+# Columns
+
+Columns can be renamed by the function `setnames()`:
+
+
+```r
+setnames(A, "aGroup", "newGroup")
+colnames(A)
+```
+
+```
+## [1] "id"       "newGroup" "val"
+```
+
+This function was implemented because apparently using `base::colnames()` will
+often [copy the entire data.frame](http://stackoverflow.com/a/9292258/480048).
