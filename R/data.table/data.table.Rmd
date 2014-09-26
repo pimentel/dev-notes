@@ -55,6 +55,11 @@ head(B, 3)
 You'll notice that both methods have the same effect. `data.table` sorts by the
 key (a one time cost) so that lookups can be fast.
 
+# Basic data.table convention
+
+TODO: write about how data.table relates to SQL, 'i, j' expressions, etc.
+
+
 # Lookups (a.k.a. SELECT)
 
 If there are keys, you can easily and quickly access by providing the key...
