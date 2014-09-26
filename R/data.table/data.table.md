@@ -77,7 +77,8 @@ key (a one time cost) so that lookups can be fast.
 
 # Lookups (a.k.a. SELECT)
 
-TODO... 
+If there are keys, you can easily and quickly access by providing the key...
+TODO: come up with different data set.
 
 # Joins
 
@@ -308,15 +309,63 @@ A[B][val < 2.7,]
 
 # Adding new columns
 
-TODO...
+New columns can be added by using the `:=` operator in the `j` variable:
+
+
+```r
+A[, new_col := val * 3 - 1]
+```
+
+```
+##     id aGroup   val new_col
+##  1:  1      d 1.705   4.115
+##  2:  2      d 1.657   3.971
+##  3:  3      d 1.135   2.404
+##  4:  4      c 1.737   4.210
+##  5:  5      b 1.519   3.557
+##  6:  6      b 1.642   3.925
+##  7:  7      b 1.830   4.491
+##  8:  8      a 1.286   2.858
+##  9:  9      a 1.937   4.811
+## 10: 10      a 1.915   4.744
+```
 
 # Group by statements
 
-TODO...
+Group by statements can be performed by using the `group` keyword in `k`
+column:
+
+
+```r
+B[, sum(val), by = "bGroup"]
+```
+
+```
+##    bGroup     V1
+## 1:      x 16.658
+## 2:      y  5.978
+## 3:      d 16.153
+## 4:      w 17.112
+```
+
+You can put several statements in the `j` variable by using `list()`:
+
+
+```r
+B[, list(the_sum = sum(val), the_prod = prod(val)), by = "bGroup"]
+```
+
+```
+##    bGroup the_sum the_prod
+## 1:      x  16.658  170.518
+## 2:      y   5.978    5.978
+## 3:      d  16.153  155.791
+## 4:      w  17.112  185.242
+```
 
 # Naming
 
-# Columns
+## Columns
 
 Columns can be renamed by the function `setnames()`:
 
@@ -327,7 +376,7 @@ colnames(A)
 ```
 
 ```
-## [1] "id"       "newGroup" "val"
+## [1] "id"       "newGroup" "val"      "new_col"
 ```
 
 This function was implemented because apparently using `base::colnames()` will

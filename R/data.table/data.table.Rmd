@@ -57,7 +57,8 @@ key (a one time cost) so that lookups can be fast.
 
 # Lookups (a.k.a. SELECT)
 
-TODO... 
+If there are keys, you can easily and quickly access by providing the key...
+TODO: come up with different data set.
 
 # Joins
 
@@ -156,15 +157,30 @@ A[B][val < 2.7,]
 
 # Adding new columns
 
-TODO...
+New columns can be added by using the `:=` operator in the `j` variable:
+
+```{r}
+A[, new_col := val * 3 - 1]
+```
 
 # Group by statements
 
-TODO...
+Group by statements can be performed by using the `group` keyword in `k`
+column:
+
+```{r}
+B[, sum(val), by = "bGroup"]
+```
+
+You can put several statements in the `j` variable by using `list()`:
+
+```{r}
+B[, list(the_sum = sum(val), the_prod = prod(val)), by = "bGroup"]
+```
 
 # Naming
 
-# Columns
+## Columns
 
 Columns can be renamed by the function `setnames()`:
 
