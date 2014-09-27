@@ -1,0 +1,23 @@
+<h1 id="google-perftools-gperftools">Google Perftools (gperftools)</h1>
+<p>This is a summary of info from the <a href="http://gperftools.googlecode.com/svn/trunk/doc/cpuprofile.html">gperftools site</a>.</p>
+<h1 id="code-to-profile-blocks">Code to profile blocks</h1>
+<p>Make sure to include the header:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="ot">#include &lt;google/profiler.h&gt;</span></code></pre>
+<p>You can then use the code <code>ProfilerStart(&quot;file.prof&quot;)</code> and <code>ProfilerStop()</code> to denote blocks:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">ProfilerStart(<span class="st">&quot;file.prof&quot;</span>);
+<span class="co">// ...</span>
+std::cout &lt;&lt; <span class="st">&quot;This code will be profiled.&quot;</span> &lt;&lt; std::endl;
+<span class="co">// ...</span>
+ProfilerStop();</code></pre>
+<p><a name="linking"></a></p>
+<h1 id="linking">Linking</h1>
+<p>The library should be in <code>*/lib/libprofiler.*</code>, thus, linking in <code>g++</code> looks like:</p>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">g++</span> -o output_name -lprofiler source.cpp</code></pre>
+<h1 id="running-with-the-profiler">Running with the profiler</h1>
+<p>The previous section, <a href="#linking">Linking</a> only adds the code to profile, and doesn't enable profiling. To enable profiling, run a binary like this:</p>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">env</span> CPUPROFILE=output.prof ./output_name</code></pre>
+<h1 id="inspecting-profiler-output">Inspecting profiler output</h1>
+<p>You can inspect output using the tool <code>pprof</code>:</p>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">pprof</span> --text ./output_name output.prof
+<span class="co"># or, you can see the graph output</span>
+<span class="kw">pprof</span> --web ./output_name output.prof</code></pre>
