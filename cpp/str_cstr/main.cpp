@@ -3,9 +3,6 @@
 #include <string>
 #include <vector>
 
-// const char** string_to_cptr(const std::vector<std::string>& v) {
-//   const char** ret;
-//   ret = new const char*[v.size()];
 std::unique_ptr<const char*> string_to_cptr(const std::vector<std::string>& v) {
   std::unique_ptr<const char*> ret( new const char*[v.size()] );
   for (size_t i = 0; i < v.size(); ++i) {
