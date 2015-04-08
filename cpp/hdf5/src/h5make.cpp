@@ -7,13 +7,13 @@
 
 #include "hdf5.h"
 
-char** vec_to_ptr(const std::vector<std::string>& v) {
-  char** ret;
-  ret = new char*[v.size()];
+const char** vec_to_ptr(const std::vector<std::string>& v) {
+  const char** ret;
+  ret = new const char*[v.size()];
   for (size_t i = 0; i < v.size(); ++i) {
-    ret[i] = new char[10];
-    strcpy(ret[i], v[i].c_str());
-    /* ret[i] = v[i].c_str(); */
+    // ret[i] = new char[10];
+    // strcpy(ret[i], v[i].c_str());
+    ret[i] = v[i].c_str();
   }
   return ret;
 }
