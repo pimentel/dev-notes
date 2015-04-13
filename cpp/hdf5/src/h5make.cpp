@@ -116,7 +116,7 @@ int main(int argc, char *argv[])
 
   std::vector<std::string> str_vec;
 
-  const auto NSTR = 1000;
+  const auto NSTR = 100;
   for (auto i = 0; i < NSTR; ++i) {
     std::string cur_str = std::to_string( i );
     str_vec.push_back( cur_str );
